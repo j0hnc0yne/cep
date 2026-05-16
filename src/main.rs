@@ -52,8 +52,10 @@ fn main() {
         OutputData::Buckets { buckets, points }
     };
 
+    use std::io::IsTerminal;
     let stdout = std::io::stdout();
-    if let Err(e) = write_output(&output_data, cfg.format, &mut stdout.lock()) {
+    let use_color = stdout.is_terminal();
+    if let Err(e) = write_output(&output_data, cfg.format, use_color, &mut stdout.lock()) {
         eprintln!("Error: {e}");
         std::process::exit(1);
     }
